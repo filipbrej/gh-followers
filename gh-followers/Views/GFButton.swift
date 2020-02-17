@@ -8,6 +8,7 @@
 
 import UIKit
 
+// Reusable custom button for the app
 class GFButton: UIButton {
     
     override init(frame: CGRect) {
@@ -18,7 +19,7 @@ class GFButton: UIButton {
     // Button properties
     private func configure() {
         layer.cornerRadius = 10
-        titleLabel?.textColor = .white
+        setTitleColor(.white, for: .normal)
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         translatesAutoresizingMaskIntoConstraints = false
     }

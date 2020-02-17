@@ -17,11 +17,11 @@ class FollowerListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        // Make call to network manager
         NetworkManager.shared.getFollowers(for: username, page: 1) { (followers, error) in
             guard let followers = followers else {
-                self.presentGFAlertOnMainThread(title: "Error", message: error!, buttonTitle: "OK")
+                self.presentGFAlertOnMainThread(title: "Error", message: error!.rawValue, buttonTitle: "OK")
                 return
-                
             }
         }
     }
