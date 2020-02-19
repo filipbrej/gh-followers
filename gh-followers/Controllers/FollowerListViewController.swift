@@ -8,11 +8,10 @@
 
 import UIKit
 
+// Displays list of followers after search
 class FollowerListViewController: UIViewController {
-
-    enum Section {
-        case main
-    }
+    
+    enum Section {case main}
     
     var username: String!
     var followers: [Follower] = []
@@ -32,6 +31,7 @@ class FollowerListViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    // Set properties of the view controller
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -39,7 +39,9 @@ class FollowerListViewController: UIViewController {
     
     // Make call to network manager
     func getFollowers() {
-        NetworkManager.shared.getFollowers(for: username, page: 1) { result in
+        NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in
+            guard let self = self else {return}
+            
             switch result {
             case .success(let followers):
                 self.followers = followers
@@ -55,7 +57,7 @@ class FollowerListViewController: UIViewController {
         // initialize collection view
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createFlowLayout())
         view.addSubview(collectionView)
-    
+        
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.cellID)
     }

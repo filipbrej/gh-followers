@@ -26,7 +26,7 @@
 		B3EB64D923FA2E9400989EC4 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64D823FA2E9400989EC4 /* Follower.swift */; };
 		B3EB64DB23FA2F6000989EC4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64DA23FA2F6000989EC4 /* User.swift */; };
 		B3EB64DE23FA333C00989EC4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64DD23FA333C00989EC4 /* NetworkManager.swift */; };
-		B3EB64E123FA3BA500989EC4 /* ErrorMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64E023FA3BA500989EC4 /* ErrorMessage.swift */; };
+		B3EB64E123FA3BA500989EC4 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64E023FA3BA500989EC4 /* ErrorMessages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,7 +51,7 @@
 		B3EB64D823FA2E9400989EC4 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 		B3EB64DA23FA2F6000989EC4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B3EB64DD23FA333C00989EC4 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
-		B3EB64E023FA3BA500989EC4 /* ErrorMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessage.swift; sourceTree = "<group>"; };
+		B3EB64E023FA3BA500989EC4 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,7 +160,7 @@
 		B3EB64DF23FA3B9300989EC4 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				B3EB64E023FA3BA500989EC4 /* ErrorMessage.swift */,
+				B3EB64E023FA3BA500989EC4 /* ErrorMessages.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -249,7 +249,7 @@
 				B3D01B0023F0D99F00B0DB7F /* FavoritesViewController.swift in Sources */,
 				B35D6F3123F474ED003FA63E /* GFTitleLabel.swift in Sources */,
 				B371275823F3B21B00967D7A /* String+Ext.swift in Sources */,
-				B3EB64E123FA3BA500989EC4 /* ErrorMessage.swift in Sources */,
+				B3EB64E123FA3BA500989EC4 /* ErrorMessages.swift in Sources */,
 				B3EB64DE23FA333C00989EC4 /* NetworkManager.swift in Sources */,
 				B3D01ACE23F0D4CF00B0DB7F /* SceneDelegate.swift in Sources */,
 				B35D6F3323F47648003FA63E /* GFBodyLabel.swift in Sources */,
