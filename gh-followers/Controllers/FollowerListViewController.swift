@@ -10,14 +10,21 @@ import UIKit
 
 class FollowerListViewController: UIViewController {
 
+    enum Section {
+        case main
+    }
+    
     var username: String!
+    var followers: [Follower] = []
     var collectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         configureViewController()
         getFollowers()
+        configureDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,33 +37,36 @@ class FollowerListViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
+    // Make call to network manager
     func getFollowers() {
-        // Make call to network manager
         NetworkManager.shared.getFollowers(for: username, page: 1) { result in
-            
             switch result {
             case .success(let followers):
-                print(followers)
+                self.followers = followers
+                self.updateData()
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Error", message: error.rawValue, buttonTitle: "OK")
             }
         }
     }
     
+    // Configure the collection view that shows followers
     func configureCollectionView() {
         // initialize collection view
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createFlowLayout())
         view.addSubview(collectionView)
     
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.cellID)
     }
     
+    // Set up collection view flow layout
     func createFlowLayout() -> UICollectionViewFlowLayout {
         // Set up cell size
         let width = view.bounds.width
         let padding: CGFloat = 12
         let minimumItemSpacing: CGFloat = 10
+        
         let availableWidth = width - (padding * 2) - (minimumItemSpacing * 2)
         let itemWidth = availableWidth / 3
         
@@ -66,5 +76,22 @@ class FollowerListViewController: UIViewController {
         flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
         
         return flowLayout
+    }
+    
+    // Sets cell in collection view with data from API call
+    func configureDataSource() {
+        dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.cellID, for: indexPath) as! FollowerCell
+            cell.set(follower: follower) // send information to the follower cell
+            return cell
+        })
+    }
+    
+    // Update the data in the collection view
+    func updateData() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(followers)
+        DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) } // puts snapshot on main thread
     }
 }
