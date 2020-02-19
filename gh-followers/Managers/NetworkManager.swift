@@ -6,15 +6,18 @@
 //  Copyright © 2020 Filip Brej. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 
 
 // Network Manager singleton
 class NetworkManager {
     static let shared = NetworkManager()
-    let baseURL = "https://api.github.com/users/"
+    private let baseURL = "https://api.github.com/users/"
     let followersPerPage = 100
+    
+    // Create instance of cache
+    let cache = NSCache<NSString, UIImage>()
     
     private init() {}
     
@@ -55,6 +58,7 @@ class NetworkManager {
             }
             
         }
+        // Run the network call
         task.resume()
     }
 }
