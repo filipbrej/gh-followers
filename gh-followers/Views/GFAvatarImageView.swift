@@ -55,9 +55,7 @@ class GFAvatarImageView: UIImageView {
             self.cache.setObject(image, forKey: cacheKey)
             
             // Set image on main thread
-            DispatchQueue.main.async {
-                self.image = image
-            }
+            DispatchQueue.main.async { self.image = image }
         }
         // Run the network call
         task.resume()
