@@ -21,9 +21,12 @@ class FollowerListViewController: UIViewController {
     var collectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
     
+    var filteredFollowers: [Follower] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        configureSearchController()
         configureViewController()
         getFollowers(username: username, page: page)
         configureDataSource()
@@ -38,6 +41,15 @@ class FollowerListViewController: UIViewController {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    func configureSearchController() {
+        let searchController = UISearchController()
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "Search for a username"
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
     }
     
     // Make call to network manager
@@ -59,7 +71,7 @@ class FollowerListViewController: UIViewController {
                     }
                     return
                 }
-                self.updateData()
+                self.updateData(on: self.followers)
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Error", message: error.rawValue, buttonTitle: "OK")
             }
@@ -106,7 +118,7 @@ class FollowerListViewController: UIViewController {
     }
     
     // Update the data in the collection view
-    func updateData() {
+    func updateData(on followers: [Follower]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
         snapshot.appendSections([.main])
         snapshot.appendItems(followers)
@@ -114,6 +126,7 @@ class FollowerListViewController: UIViewController {
     }
 }
 
+// Extension for collection view
 extension FollowerListViewController: UICollectionViewDelegate {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY = scrollView.contentOffset.y
@@ -126,5 +139,23 @@ extension FollowerListViewController: UICollectionViewDelegate {
             page += 1
             getFollowers(username: username, page: page)
         }
+    }
+}
+
+// Extension for search controller
+extension FollowerListViewController: UISearchResultsUpdating, UISearchBarDelegate {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        // Checks if search bar is empty
+        guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+        
+        // Filter followers from search query
+        filteredFollowers = followers.filter { $0.login.lowercased().contains(filter.lowercased()) }
+        updateData(on: filteredFollowers)
+    }
+    
+    // Reset collection view when cancel button is tapped
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        updateData(on: followers)
     }
 }
