@@ -1,8 +1,8 @@
 //
-//  ErrorMessage.swift
+//  GFError.swift
 //  gh-followers
 //
-//  Created by Filip Brej on 2/16/20.
+//  Created by Filip Brej on 2/24/20.
 //  Copyright © 2020 Filip Brej. All rights reserved.
 //
 
