@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol FollowerListVCDelegate: class {
+    func didRequestFollowers(for username: String)
+}
+
 // Displays list of followers after search
 class FollowerListViewController: UIViewController {
     
@@ -147,6 +151,7 @@ extension FollowerListViewController: UICollectionViewDelegate {
         
         let destinationVC = UserInfoViewController()
         destinationVC.username = follower.login
+        destinationVC.delegate = self
         let navController = UINavigationController(rootViewController: destinationVC)
         present(navController, animated: true)
     }
@@ -169,4 +174,20 @@ extension FollowerListViewController: UISearchResultsUpdating, UISearchBarDelega
         isSearching = false
         updateData(on: followers)
     }
+}
+
+extension FollowerListViewController: FollowerListVCDelegate {
+    
+    // Get followers for chosen user from follower list view controller
+    func didRequestFollowers(for username: String) {
+        self.username = username
+        title = username
+        page = 1
+        followers.removeAll()
+        filteredFollowers.removeAll()
+        collectionView.setContentOffset(.zero, animated: true)
+        getFollowers(username: username, page: page)
+    }
+    
+    
 }
