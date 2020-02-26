@@ -36,6 +36,7 @@
 		B3EB64D923FA2E9400989EC4 /* Follower.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64D823FA2E9400989EC4 /* Follower.swift */; };
 		B3EB64DB23FA2F6000989EC4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64DA23FA2F6000989EC4 /* User.swift */; };
 		B3EB64DE23FA333C00989EC4 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3EB64DD23FA333C00989EC4 /* NetworkManager.swift */; };
+		B3ECA6C9240620D0008B7F6D /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3ECA6C8240620D0008B7F6D /* Date+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		B3EB64D823FA2E9400989EC4 /* Follower.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follower.swift; sourceTree = "<group>"; };
 		B3EB64DA23FA2F6000989EC4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		B3EB64DD23FA333C00989EC4 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		B3ECA6C8240620D0008B7F6D /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				B371275723F3B21B00967D7A /* String+Ext.swift */,
+				B3ECA6C8240620D0008B7F6D /* Date+Ext.swift */,
 				B35D6F3623F47CBB003FA63E /* UIViewController+Ext.swift */,
 			);
 			path = Extensions;
@@ -305,6 +308,7 @@
 				B3EB64D923FA2E9400989EC4 /* Follower.swift in Sources */,
 				B3D01B0023F0D99F00B0DB7F /* FavoritesViewController.swift in Sources */,
 				B35D6F3123F474ED003FA63E /* GFTitleLabel.swift in Sources */,
+				B3ECA6C9240620D0008B7F6D /* Date+Ext.swift in Sources */,
 				B338B4262404BED100CC894B /* GFSecondaryTitleLabel.swift in Sources */,
 				B371275823F3B21B00967D7A /* String+Ext.swift in Sources */,
 				B35533A52400577200FAB606 /* GFEmptyStateView.swift in Sources */,

@@ -15,7 +15,7 @@ class UserInfoViewController: UIViewController {
     let itemViewTwo = UIView()
     var itemViews: [UIView] = []
     var username: String!
-    let dateLabel = UILabel()
+    let dateLabel = GFBodyLabel(textAlign: .center)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +42,7 @@ class UserInfoViewController: UIViewController {
                     self.addChildVC(childVC: GFUserInfoHeaderViewController(user: user), to: self.headerView)
                     self.addChildVC(childVC: GFRepoItemViewController(user: user), to: self.itemViewOne)
                     self.addChildVC(childVC: GFFollowerItemViewController(user: user), to: self.itemViewTwo)
+                    self.dateLabel.text = "GitHub user since \(user.createdAt.convertToDisplayFormat())"
                 }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
@@ -51,7 +52,7 @@ class UserInfoViewController: UIViewController {
     
     // Layout configuration for views
     func layoutUI() {
-        itemViews = [headerView, itemViewOne, itemViewTwo]
+        itemViews = [headerView, itemViewOne, itemViewTwo, dateLabel]
         let padding: CGFloat = 20
         let itemHeight: CGFloat = 140
 
@@ -59,14 +60,12 @@ class UserInfoViewController: UIViewController {
             view.addSubview(item)
             item.translatesAutoresizingMaskIntoConstraints = false
             
-            
             NSLayoutConstraint.activate([
                 item.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
                 item.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding),
                 
             ])
         }
-        
         
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -76,7 +75,10 @@ class UserInfoViewController: UIViewController {
             itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
             
             itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
-            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight)
+            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
+            
+            dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
+            dateLabel.heightAnchor.constraint(equalToConstant: 18)
         ])
     }
     
