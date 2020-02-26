@@ -26,7 +26,7 @@ class UserInfoViewController: UIViewController {
     // Configure the parent view controller
     func configureViewController() {
         view.backgroundColor = .systemBackground
-        let closeButton = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(dismissVC))
+        let closeButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissVC))
         navigationItem.rightBarButtonItem = closeButton
     }
     
