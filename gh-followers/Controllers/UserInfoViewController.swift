@@ -15,6 +15,7 @@ class UserInfoViewController: UIViewController {
     let itemViewTwo = UIView()
     var itemViews: [UIView] = []
     var username: String!
+    let dateLabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +40,8 @@ class UserInfoViewController: UIViewController {
             case .success(let user):
                 DispatchQueue.main.async {
                     self.addChildVC(childVC: GFUserInfoHeaderViewController(user: user), to: self.headerView)
+                    self.addChildVC(childVC: GFRepoItemViewController(user: user), to: self.itemViewOne)
+                    self.addChildVC(childVC: GFFollowerItemViewController(user: user), to: self.itemViewTwo)
                 }
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
