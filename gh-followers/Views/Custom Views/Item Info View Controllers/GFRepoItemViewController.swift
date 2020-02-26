@@ -15,10 +15,14 @@ class GFRepoItemViewController: GFItemInfoViewController {
         
     }
     
+    override func actionButtonTapped() {
+        delegate.didTapGitHubProfile(for: user)
+    }
+    
     private func configureItems() {
         itemInfoViewOne.set(itemInfoType: .repos, with: user.publicRepos)
         itemInfoViewTwo.set(itemInfoType: .gists, with: user.publicGists)
-        
+    
         actionButton.set(backgroundColor: .systemPurple, title: "See GitHub Profile")
     }
 }
