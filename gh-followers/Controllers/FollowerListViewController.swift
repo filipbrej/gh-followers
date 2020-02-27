@@ -52,7 +52,30 @@ class FollowerListViewController: UIViewController {
     }
     
     @objc func addToFavorites() {
-        
+        showLoadingView()
+        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+            guard let self = self else {return}
+            self.dismissLoadingView()
+            
+            switch result {
+            // Successfully added to favorites
+            case .success(let user):
+                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                
+                PersistenceManager.update(with: favorite, actionType: .add) { [weak self] error in
+                    guard let self = self else {return}
+                    guard let error = error else {
+                        self.presentGFAlertOnMainThread(title: "Success!", message: "This user has been added to your favorites 🎉", buttonTitle: "OK")
+                        return
+                    }
+                    self.presentGFAlertOnMainThread(title: "Something went wrong.", message: error.rawValue, buttonTitle: "OK")
+                }
+                
+            // Failed to add to favorites
+            case .failure(let error):
+                self.presentGFAlertOnMainThread(title: "Something went wrong.", message: error.rawValue, buttonTitle: "OK")
+            }
+        }
     }
     
     func configureSearchController() {
