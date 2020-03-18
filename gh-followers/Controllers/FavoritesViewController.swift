@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FavoritesViewController: UIViewController {
+class FavoritesViewController: GFDataLoadingViewController {
     
     let tableView = UITableView()
     var favorites : [Follower] = []
@@ -38,6 +38,7 @@ class FavoritesViewController: UIViewController {
         tableView.rowHeight = 80
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.removeExcessCells()
         
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.cellID)
     }
@@ -85,9 +86,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let favorite = favorites[indexPath.row]
-        let destVC = FollowerListViewController()
-        destVC.username = favorite.login
-        destVC.title = favorite.login
+        let destVC = FollowerListViewController(username: favorite.login)
         navigationController?.pushViewController(destVC, animated: true)
     }
     
@@ -96,19 +95,20 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
         guard editingStyle == .delete else {return}
         
         let favorite = favorites[indexPath.row]
-        favorites.remove(at: indexPath.row)
-        
-        // Delete row from table view
-        tableView.deleteRows(at: [indexPath], with: .left)
         
         
         // Persist the updated list
         PersistenceManager.update(with: favorite, actionType: .remove) { [weak self] (error) in
             guard let self = self else {return}
-            
             // Check if there is error
-            guard let error = error else {return}
-            
+            guard let error = error else {
+
+                self.favorites.remove(at: indexPath.row)
+                // Delete row from table view
+                tableView.deleteRows(at: [indexPath], with: .left)
+                return
+                
+            }
             self.presentGFAlertOnMainThread(title: "Something went wrong.", message: error.rawValue, buttonTitle: "OK")
         }
     }

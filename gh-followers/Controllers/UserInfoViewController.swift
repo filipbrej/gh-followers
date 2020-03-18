@@ -8,9 +8,9 @@
 
 import UIKit
 
+
 protocol UserInfoVCDelegate: class {
-    func didTapGitHubProfile(for user: User)
-    func didTapSeeFollowers(for user: User)
+    func didRequestFollowers(for username: String)
 }
 
 class UserInfoViewController: UIViewController {
@@ -21,15 +21,37 @@ class UserInfoViewController: UIViewController {
     var itemViews: [UIView] = []
     var username: String!
     
+    
+    // Scrolling content
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    
     let dateLabel = GFBodyLabel(textAlign: .center)
     
-    weak var delegate: FollowerListVCDelegate!
+    weak var delegate: UserInfoVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
+        configureScrollView()
         layoutUI()
         getUserInfo()
+    }
+    
+    // Setup scroll view and content view layout
+    func configureScrollView() {
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.pinToEdges(of: view)
+        contentView.pinToEdges(of: scrollView)
+        
+        NSLayoutConstraint.activate([
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 2000)
+        ])
     }
     
     // Configure the parent view controller
@@ -54,16 +76,10 @@ class UserInfoViewController: UIViewController {
     }
     
     func configureUIElements(with user: User) {
-        let repoItemVC = GFRepoItemViewController(user: user)
-        repoItemVC.delegate = self
-        
-        let followerItemVC = GFFollowerItemViewController(user: user)
-        followerItemVC.delegate = self
-        
         self.addChildVC(childVC: GFUserInfoHeaderViewController(user: user), to: self.headerView)
-        self.addChildVC(childVC: repoItemVC, to: self.itemViewOne)
-        self.addChildVC(childVC: followerItemVC, to: self.itemViewTwo)
-        self.dateLabel.text = "GitHub user since \(user.createdAt.convertToDisplayFormat())"
+        self.addChildVC(childVC: GFRepoItemViewController(user: user, delegate: self), to: self.itemViewOne)
+        self.addChildVC(childVC: GFFollowerItemViewController(user: user, delegate: self), to: self.itemViewTwo)
+        self.dateLabel.text = "GitHub user since \(user.createdAt.convertToMonthYearFormat())"
     }
     
     // Layout configuration for views
@@ -73,18 +89,18 @@ class UserInfoViewController: UIViewController {
         let itemHeight: CGFloat = 140
         
         for item in itemViews {
-            view.addSubview(item)
+            contentView.addSubview(item)
             item.translatesAutoresizingMaskIntoConstraints = false
             
             NSLayoutConstraint.activate([
-                item.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: padding),
-                item.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -padding)
+                item.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: padding),
+                item.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -padding)
             ])
         }
         
         NSLayoutConstraint.activate([
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 180),
+            headerView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 210),
             
             itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
             itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
@@ -93,7 +109,7 @@ class UserInfoViewController: UIViewController {
             itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
             
             dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
-            dateLabel.heightAnchor.constraint(equalToConstant: 18)
+            dateLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -112,9 +128,18 @@ class UserInfoViewController: UIViewController {
     
 }
 
-extension UserInfoViewController: UserInfoVCDelegate {
-    
-    // Show Safari view controller
+extension UserInfoViewController: GFFollowerItemVCDelegate {
+    func didTapSeeFollowers(for user: User) {
+        guard user.followers != 0 else {
+            presentGFAlertOnMainThread(title: "No followers", message: "This user has no followers 😢", buttonTitle: "OK 😕")
+            return
+        }
+        delegate.didRequestFollowers(for: user.login)
+        dismissVC()
+    }
+}
+
+extension UserInfoViewController: GFRepoItemVCDelegate {
     func didTapGitHubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid", buttonTitle: "OK")
@@ -122,16 +147,4 @@ extension UserInfoViewController: UserInfoVCDelegate {
         }
         presentSafariVC(with: url)
     }
-    
-    // See the followers of the user when button is tapped
-    func didTapSeeFollowers(for user: User) {
-        guard user.followers != 0 else {
-            presentGFAlertOnMainThread(title: "No followers", message: "This user has no followers 😢", buttonTitle: "OK 😕")
-            return
-        }
-        
-        delegate.didRequestFollowers(for: user.login)
-        dismissVC()
-    }
-    
 }

@@ -30,11 +30,10 @@ class GFButton: UIButton {
     }
     
     // Further button customization
-    init(backgroundColor: UIColor, title: String) {
-        super.init(frame: .zero)
+    convenience init(backgroundColor: UIColor, title: String) {
+        self.init(frame: .zero)
         self.backgroundColor = backgroundColor
         self.setTitle(title, for: .normal)
-        configure()
     }
     
     required init?(coder: NSCoder) {
