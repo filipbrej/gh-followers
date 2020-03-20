@@ -39,16 +39,7 @@ class SearchViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
     
-    @objc func pushFollowerListViewController() {
-        guard isUsernameEntered else { presentGFAlertOnMainThread(title: "Empty username 😳", message: "Please enter a username. We need to know who to look for.", buttonTitle: "OK")
-            
-            return
-        }
-        userNameTextField.resignFirstResponder()
-        let followerListVC = FollowerListViewController(username: userNameTextField.text!)
-
-        navigationController?.pushViewController(followerListVC, animated: true)
-    }
+    
     
     func configureLogoImageView() {
         view.addSubview(logoImageView)
@@ -84,12 +75,25 @@ class SearchViewController: UIViewController {
     func configureFollowersButton() {
         view.addSubview(followersButton)
         followersButton.addTarget(self, action: #selector(pushFollowerListViewController), for: .touchUpInside)
+        
+        
         NSLayoutConstraint.activate([
             followersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
             followersButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             followersButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             followersButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    @objc func pushFollowerListViewController() {
+        guard isUsernameEntered else { presentGFAlertOnMainThread(title: "Empty username 😳", message: "Please enter a username. We need to know who to look for.", buttonTitle: "OK")
+            
+            return
+        }
+        userNameTextField.resignFirstResponder()
+        let followerListVC = FollowerListViewController(username: userNameTextField.text!)
+
+        navigationController?.pushViewController(followerListVC, animated: true)
     }
 }
 

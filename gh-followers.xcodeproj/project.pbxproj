@@ -107,6 +107,26 @@
 			path = "Item Info View Controllers";
 			sourceTree = "<group>";
 		};
+		B347F286242442340035B45C /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B3D01AFD23F0D96E00B0DB7F /* SearchViewController.swift */,
+				B371275523F3AEEE00967D7A /* FollowerListViewController.swift */,
+				B3D01AFF23F0D99F00B0DB7F /* FavoritesViewController.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		B347F2872424425E0035B45C /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				B35D6F3023F474ED003FA63E /* GFTitleLabel.swift */,
+				B35D6F3223F47648003FA63E /* GFBodyLabel.swift */,
+				B338B4252404BED100CC894B /* GFSecondaryTitleLabel.swift */,
+			);
+			path = Labels;
+			sourceTree = "<group>";
+		};
 		B35533A62400579400FAB606 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,13 +138,9 @@
 		B35533A72400579C00FAB606 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
-				B35D6F3023F474ED003FA63E /* GFTitleLabel.swift */,
 				B36E31A7240AC8B900425B08 /* GFAlertContainerView.swift */,
 				B35533A42400577200FAB606 /* GFEmptyStateView.swift */,
-				B330AB4524061BD0001161E6 /* Item Info View Controllers */,
 				B330AB3D24061002001161E6 /* GFItemInfoView.swift */,
-				B35D6F3223F47648003FA63E /* GFBodyLabel.swift */,
-				B338B4252404BED100CC894B /* GFSecondaryTitleLabel.swift */,
 				B39EC16223F23F26003958B3 /* GFTextField.swift */,
 				B35D6F3423F47715003FA63E /* GFAlertViewController.swift */,
 				B39E036623FB8278006545C7 /* GFAvatarImageView.swift */,
@@ -165,6 +181,7 @@
 				B3EB64DF23FA3B9300989EC4 /* Utilities */,
 				B3EB64DC23FA332900989EC4 /* Managers */,
 				B3EB64D723FA2E8700989EC4 /* Models */,
+				B347F286242442340035B45C /* Screens */,
 				B3DBA25223F4D12A00BD5256 /* Controllers */,
 				B3DBA25323F4D16000BD5256 /* Views */,
 				B3DBA25423F4D17900BD5256 /* Extensions */,
@@ -178,13 +195,11 @@
 		B3DBA25223F4D12A00BD5256 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B3D01AFF23F0D99F00B0DB7F /* FavoritesViewController.swift */,
-				B3D01AFD23F0D96E00B0DB7F /* SearchViewController.swift */,
 				B338B4232404BE6F00CC894B /* GFUserInfoHeaderViewController.swift */,
 				B36E31A9240AD10500425B08 /* GFDataLoadingViewController.swift */,
-				B371275523F3AEEE00967D7A /* FollowerListViewController.swift */,
 				B3B5F9082409466500D730C9 /* GFTabBarController.swift */,
 				B31610A52404463E0098A0EA /* UserInfoViewController.swift */,
+				B330AB4524061BD0001161E6 /* Item Info View Controllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -192,6 +207,7 @@
 		B3DBA25323F4D16000BD5256 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B347F2872424425E0035B45C /* Labels */,
 				B35533A62400579400FAB606 /* Buttons */,
 				B35533A72400579C00FAB606 /* Custom Views */,
 				B39E036323FB81E1006545C7 /* Cells */,
